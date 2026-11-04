@@ -20,6 +20,10 @@ fn main() {
         config
             .define("TREE_SITTER_FEATURE_WASM", "")
             .define("static_assert(...)", "")
+            // wasmtime-c-api is linked statically, so its headers must not declare the C API as
+            // `__declspec(dllimport)` on Windows.
+            .define("WASM_API_EXTERN", "")
+            .define("WASI_API_EXTERN", "")
             .include(env::var("DEP_WASMTIME_C_API_INCLUDE").unwrap());
     }
 
